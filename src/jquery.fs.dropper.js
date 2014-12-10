@@ -36,6 +36,23 @@
 
 		/**
 		 * @method
+		 * @name destroy
+		 * @description Destroys plugin
+		 * @example $(<selector>).dropper("destroy");
+		 */
+    destroy: function () {
+      var $items = $(this);
+      
+			// Apply to each element
+			for (var i = 0, count = $items.length; i < count; i++) {
+				_destroy($items.eq(i));
+			}
+      
+      return (typeof this === 'object') ? $(this) : true;
+    },
+
+		/**
+		 * @method
 		 * @name defaults
 		 * @description Sets default plugin options
 		 * @param opts [object] <{}> "Options object"
@@ -111,6 +128,22 @@
 
 		data.$input.on("change.dropper", data, _onChange);
 	}
+  
+	/**
+	 * @method private
+	 * @name _destroy
+	 * @description Destroys each instance
+	 * @param $nav [jQuery object] "Target jQuery object"
+	 */
+  function _destroy($dropper) {
+		$dropper.find(".dropper-input").off("change.dropper", _onChange);
+    $dropper.off("click.dropper", ".dropper-dropzone", _onClick)
+				.off("dragenter.dropper", _onDragEnter)
+				.off("dragover.dropper", _onDragOver)
+				.off("dragleave.dropper", _onDragOut)
+				.off("drop.dropper", ".dropper-dropzone", _onDrop);
+    $dropper.removeClass("dropper").html("");
+  }
 
 	/**
 	 * @method private
