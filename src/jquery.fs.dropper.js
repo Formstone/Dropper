@@ -74,7 +74,7 @@
 	 * @method private
 	 * @name _build
 	 * @description Builds each instance
-	 * @param $nav [jQuery object] "Target jQuery object"
+	 * @param $dropper [jQuery object] "Target jQuery object"
 	 * @param opts [object] <{}> "Options object"
 	 */
 	function _build($dropper, opts) {
