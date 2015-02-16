@@ -1,9 +1,9 @@
 /* 
- * Dropper v1.0.1 - 2014-11-25 
+ * Dropper v1.0.1 - 2015-02-16 
  * A jQuery plugin for simple drag and drop uploads. Part of the Formstone Library. 
  * http://formstone.it/dropper/ 
  * 
- * Copyright 2014 Ben Plum; MIT Licensed 
+ * Copyright 2015 Ben Plum; MIT Licensed 
  */
 
 ;(function ($, window) {
@@ -19,6 +19,7 @@
 	 * @param maxSize [int] <5242880> "Max file size allowed"
 	 * @param postData [object] "Extra data to post with upload"
 	 * @param postKey [string] <'file'> "Key to upload file as"
+	 * @param allowedTypes [list] "Allowed mime types of files, empty for allow all types"
 	 */
 
 	var options = {
@@ -27,7 +28,8 @@
 		maxQueue: 2,
 		maxSize: 5242880, // 5 mb
 		postData: {},
-		postKey: "file"
+		postKey: "file",
+		allowedTypes: []
 	};
 
 	/**
@@ -82,7 +84,7 @@
 	 * @method private
 	 * @name _build
 	 * @description Builds each instance
-	 * @param $nav [jQuery object] "Target jQuery object"
+	 * @param $dropper [jQuery object] "Target jQuery object"
 	 * @param opts [object] <{}> "Options object"
 	 */
 	function _build($dropper, opts) {
@@ -319,7 +321,12 @@
 	function _uploadFile(data, file, formData) {
 		if (file.size >= data.maxSize) {
 			file.error = true;
-			data.$dropper.trigger("fileError.dropper", [ file, "Too large" ]);
+			data.$dropper.trigger("fileError.dropper", [file, "Too large"]);
+
+			_checkQueue(data);
+		} else if (data.allowedTypes.length !== 0 && data.allowedTypes.indexOf(file.file.type) === -1) {
+			file.error = true;
+			data.$dropper.trigger("fileError.dropper", [file, "Type not allowed"]);
 
 			_checkQueue(data);
 		} else {
