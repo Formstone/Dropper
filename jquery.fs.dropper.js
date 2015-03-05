@@ -1,9 +1,9 @@
 /* 
- * Dropper v1.0.1 - 2014-11-25 
+ * Dropper v1.0.1 - 2015-03-04 
  * A jQuery plugin for simple drag and drop uploads. Part of the Formstone Library. 
  * http://formstone.it/dropper/ 
  * 
- * Copyright 2014 Ben Plum; MIT Licensed 
+ * Copyright 2015 Ben Plum; MIT Licensed 
  */
 
 ;(function ($, window) {
@@ -278,13 +278,13 @@
 				if (!data.queue[j].started) {
 					var formData = new FormData();
 
-					formData.append(data.postKey, data.queue[j].file);
-
 					for (var k in data.postData) {
 						if (data.postData.hasOwnProperty(k)) {
 							formData.append(k, data.postData[k]);
 						}
 					}
+
+					formData.append(data.postKey, data.queue[j].file);
 
 					_uploadFile(data, data.queue[j], formData);
 				}
