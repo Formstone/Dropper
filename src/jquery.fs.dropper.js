@@ -270,13 +270,13 @@
 				if (!data.queue[j].started) {
 					var formData = new FormData();
 
-					formData.append(data.postKey, data.queue[j].file);
-
 					for (var k in data.postData) {
 						if (data.postData.hasOwnProperty(k)) {
 							formData.append(k, data.postData[k]);
 						}
 					}
+
+					formData.append(data.postKey, data.queue[j].file);
 
 					_uploadFile(data, data.queue[j], formData);
 				}
